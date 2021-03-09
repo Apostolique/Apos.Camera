@@ -1,2 +1,3 @@
-# Apos.Camera
+# Apos.Input
+
 Camera library for MonoGame.
