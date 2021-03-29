@@ -49,9 +49,9 @@ namespace Apos.Camera {
             int gWidth = _graphicsDevice.PresentationParameters.BackBufferWidth;
             int gHeight = _graphicsDevice.PresentationParameters.BackBufferHeight;
 
-            _viewport = new Viewport((int)(gWidth * _left), (int)(gHeight * _top), (int)(gWidth * _right), (int)(gHeight * _bottom));
+            _viewport = new Viewport((int)(gWidth * _left), (int)(gHeight * _top), (int)(gWidth * (_right - _left)), (int)(gHeight * (_bottom - _top)));
 
-            _origin = new Vector2((_viewport.Width - _viewport.X) / 2f, (_viewport.Height - _viewport.Y) / 2f);
+            _origin = new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
         }
 
         private GraphicsDevice _graphicsDevice;
