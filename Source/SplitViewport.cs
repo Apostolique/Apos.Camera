@@ -3,10 +3,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Apos.Camera {
-    public class HalfViewport : IVirtualViewport {
-        public HalfViewport(GraphicsDevice graphicsDevice, GameWindow window, bool isLeft) {
+    public class SplitViewport : IVirtualViewport {
+        public SplitViewport(GraphicsDevice graphicsDevice, GameWindow window, float left, float top, float right, float bottom) {
             _graphicsDevice = graphicsDevice;
-            IsLeft = isLeft;
+
+            _left = left;
+            _top = top;
+            _right = right;
+            _bottom = bottom;
 
             _window = window;
             _window.ClientSizeChanged += OnClientSizeChanged;
@@ -16,8 +20,6 @@ namespace Apos.Camera {
         public void Dispose() {
             _window.ClientSizeChanged -= OnClientSizeChanged;
         }
-
-        public bool IsLeft { get; set; }
 
         public int X => _viewport.X;
         public int Y => _viewport.Y;
@@ -44,15 +46,12 @@ namespace Apos.Camera {
         }
 
         private void OnClientSizeChanged(object sender, EventArgs e) {
-            int halfWidth = _graphicsDevice.PresentationParameters.BackBufferWidth / 2;
+            int gWidth = _graphicsDevice.PresentationParameters.BackBufferWidth;
+            int gHeight = _graphicsDevice.PresentationParameters.BackBufferHeight;
 
-            if (IsLeft) {
-                _viewport = new Viewport(0, 0, halfWidth, _graphicsDevice.PresentationParameters.BackBufferHeight);
-            } else {
-                _viewport = new Viewport(0 + halfWidth, 0, halfWidth, _graphicsDevice.PresentationParameters.BackBufferHeight);
-            }
+            _viewport = new Viewport((int)(gWidth * _left), (int)(gHeight * _top), (int)(gWidth * _right), (int)(gHeight * _bottom));
 
-            _origin = new Vector2(_viewport.Width / 2, _viewport.Height / 2);
+            _origin = new Vector2((_viewport.Width - _viewport.X) / 2f, (_viewport.Height - _viewport.Y) / 2f);
         }
 
         private GraphicsDevice _graphicsDevice;
@@ -60,5 +59,10 @@ namespace Apos.Camera {
         private Viewport _viewport;
         private Viewport _oldViewport;
         private Vector2 _origin;
+
+        private float _left;
+        private float _top;
+        private float _right;
+        private float _bottom;
     }
 }

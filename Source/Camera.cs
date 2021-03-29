@@ -67,7 +67,7 @@ namespace Apos.Camera {
             float scaleZ = ZToScale(_xyz.Z, z);
             return VirtualViewport.Transform(
                 Matrix.CreateTranslation(new Vector3(-XY, 0f)) *
-                // Matrix.CreateTranslation(new Vector3(-Viewport.Origin, 0f)) * // This makes the camera position be at the top left
+                Matrix.CreateTranslation(new Vector3(-VirtualViewport.Origin, 0f)) * // This makes the camera position be at the top left
                 Matrix.CreateRotationZ(Rotation) *
                 Matrix.CreateScale(Scale.X, Scale.Y, 1f) *
                 Matrix.CreateScale(scaleZ, scaleZ, 1f) *
