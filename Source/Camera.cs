@@ -88,7 +88,8 @@ namespace Apos.Camera {
             return 1f / (z - targetZ);
         }
 
-        public float ScreenToWorldScale(float z = 0f) => Vector2.Distance(ScreenToWorld(0f, 0f, _xyz.Z), ScreenToWorld(1f, 0f, _xyz.Z));
+        public float WorldToScreenScale(float z = 0f) => Vector2.Distance(WorldToScreen(0f, 0f, z), WorldToScreen(1f, 0f, z));
+        public float ScreenToWorldScale(float z = 0f) => Vector2.Distance(ScreenToWorld(0f, 0f, z), ScreenToWorld(1f, 0f, z));
 
         public Vector2 WorldToScreen(float x, float y, float z) => WorldToScreen(new Vector2(x, y), z);
         public Vector2 WorldToScreen(Vector2 xy, float z) {
