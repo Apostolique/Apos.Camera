@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Apos.Input;
@@ -59,17 +59,14 @@ namespace GameProject {
             GraphicsDevice.Clear(Color.Black);
 
             _superViewport1.Set();
-            // TODO: Fix view, it should be translated by the viewport offset.
-            _s.Begin(transformMatrix: _superViewport1.Transform(_camera1.View));
-            // _s.Begin();
+            _s.Begin(transformMatrix: _camera1.View);
             _s.Draw(_apos, Vector2.Zero, Color.White);
             _s.Draw(_apos, _mouseWorld, Color.White);
             _s.End();
             _superViewport1.Reset();
 
             _superViewport2.Set();
-            _s.Begin(transformMatrix: _superViewport2.Transform(_camera2.View));
-            // _s.Begin();
+            _s.Begin(transformMatrix: _camera2.View);
             _s.Draw(_apos, Vector2.Zero, Color.White);
             _s.Draw(_apos, _mouseWorld, Color.White);
             _s.End();
