@@ -33,13 +33,6 @@ namespace Apos.Camera {
 
         public void Set() {
             _oldViewport = _graphicsDevice.Viewport;
-
-            if (!IsLeft) {
-                _viewport.X = _graphicsDevice.PresentationParameters.BackBufferWidth / 2;
-            }
-            _viewport.Width = _graphicsDevice.PresentationParameters.BackBufferWidth / 2;
-            _viewport.Height = _graphicsDevice.PresentationParameters.BackBufferHeight;
-
             _graphicsDevice.Viewport = _viewport;
         }
         public void Reset() {

@@ -43,10 +43,11 @@ namespace Apos.Camera {
         }
 
         public void Set() {
-
+            _oldViewport = _graphicsDevice.Viewport;
+            _graphicsDevice.Viewport = _viewport;
         }
         public void Reset() {
-
+            _graphicsDevice.Viewport = _oldViewport;
         }
 
         public Matrix Transform(Matrix view) {
