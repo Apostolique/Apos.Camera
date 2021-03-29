@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Apos.Camera;
+using Apos.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Apos.Input;
-using Apos.Camera;
-using System;
 
 namespace GameProject {
     public class GameRoot : Game {
