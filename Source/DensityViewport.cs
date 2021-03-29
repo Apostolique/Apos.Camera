@@ -35,11 +35,8 @@ namespace Apos.Camera {
         public float VirtualHeight => _virtualHeight;
         public float Ratio { get; set; }
 
-        public void UpdateViewport(float width, float height) {
-        }
-
         public Matrix GetScaleMatrix() {
-            return Matrix.CreateScale(Ratio, Ratio, 1.0f);
+            return Matrix.CreateScale(Ratio, Ratio, 1f);
         }
 
         public void Set() {
@@ -72,7 +69,7 @@ namespace Apos.Camera {
                 _virtualHeight = _viewport.Height / ratioHeight;
             }
 
-            _origin = new Vector2(_viewport.Width / 2, _viewport.Height / 2);
+            _origin = new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
         }
 
         private GraphicsDevice _graphicsDevice;
