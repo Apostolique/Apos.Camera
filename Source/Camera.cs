@@ -53,6 +53,13 @@ namespace Apos.Camera {
             set;
         }
 
+        public void SetViewport() {
+            VirtualViewport.Set();
+        }
+        public void ResetViewport() {
+            VirtualViewport.Reset();
+        }
+
         public Matrix View => GetView(0) ;
         public Matrix ViewInvert => GetViewInvert(0);
 

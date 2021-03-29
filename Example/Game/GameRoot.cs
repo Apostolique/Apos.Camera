@@ -58,19 +58,19 @@ namespace GameProject {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
-            _superViewport1.Set();
+            _camera1.SetViewport();
             _s.Begin(transformMatrix: _camera1.View);
             _s.Draw(_apos, Vector2.Zero, Color.White);
             _s.Draw(_apos, _mouseWorld, Color.White);
             _s.End();
-            _superViewport1.Reset();
+            _camera1.ResetViewport();
 
-            _superViewport2.Set();
+            _camera2.SetViewport();
             _s.Begin(transformMatrix: _camera2.View);
             _s.Draw(_apos, Vector2.Zero, Color.White);
             _s.Draw(_apos, _mouseWorld, Color.White);
             _s.End();
-            _superViewport2.Reset();
+            _camera2.ResetViewport();
 
             _s.Begin();
             _s.Draw(_pixel, new Rectangle(0 + GraphicsDevice.PresentationParameters.BackBufferWidth / 2, 0, 2, GraphicsDevice.PresentationParameters.BackBufferHeight), Color.White);
@@ -80,8 +80,8 @@ namespace GameProject {
         }
 
         private void UpdateCameraInput(Camera camera) {
-            int scrollDelta = InputHelper.NewMouse.ScrollWheelValue - InputHelper.OldMouse.ScrollWheelValue;
-            if (scrollDelta != 0) {
+            if (MouseCondition.Scrolled()) {
+                int scrollDelta = MouseCondition.ScrollDelta;
                 SetZoom(camera, MathF.Min(MathF.Max(GetZoom(camera) - scrollDelta * 0.001f, 0.2f), 10f));
             }
 
