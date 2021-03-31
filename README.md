@@ -5,7 +5,7 @@ Camera library for MonoGame.
 
 ## Documentation
 
-* Coming soon!
+* [Getting started](https://apostolique.github.io/Apos.Camera/getting-started/)
 
 ## Build
 
