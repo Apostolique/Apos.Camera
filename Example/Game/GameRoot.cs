@@ -28,11 +28,11 @@ namespace GameProject {
             _superViewport3 = new SplitViewport(GraphicsDevice, Window, 0.7f, 0.3f, 1f, 1f);
             _superViewport4 = new SplitViewport(GraphicsDevice, Window, 0.3f, 0f, 1f, 0.3f);
             _superViewport5 = new SplitViewport(GraphicsDevice, Window, 0.3f, 0.3f, 0.7f, 0.7f);
-            _camera1 = new Camera(GraphicsDevice, _superViewport1);
-            _camera2 = new Camera(GraphicsDevice, _superViewport2);
-            _camera3 = new Camera(GraphicsDevice, _superViewport3);
-            _camera4 = new Camera(GraphicsDevice, _superViewport4);
-            _camera5 = new Camera(GraphicsDevice, _superViewport5);
+            _camera1 = new Camera(_superViewport1);
+            _camera2 = new Camera(_superViewport2);
+            _camera3 = new Camera(_superViewport3);
+            _camera4 = new Camera(_superViewport4);
+            _camera5 = new Camera(_superViewport5);
 
             _apos = Content.Load<Texture2D>("apos");
             _pixel = Content.Load<Texture2D>("pixel");

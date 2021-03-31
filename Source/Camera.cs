@@ -4,8 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Apos.Camera {
     public class Camera {
-        public Camera(GraphicsDevice graphicsDevice, IVirtualViewport virtualViewport) {
-            _graphicsDevice = graphicsDevice;
+        public Camera(IVirtualViewport virtualViewport) {
             VirtualViewport = virtualViewport;
         }
 
@@ -107,7 +106,6 @@ namespace Apos.Camera {
             return scaleZ > 0 && scaleZ < maxScale;
         }
 
-        private GraphicsDevice _graphicsDevice;
         private Vector2 _xy = Vector2.Zero;
         private Vector3 _xyz = new Vector3(Vector2.Zero, 1f);
     }
