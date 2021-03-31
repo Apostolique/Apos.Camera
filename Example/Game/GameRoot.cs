@@ -73,7 +73,6 @@ namespace GameProject {
                 UpdateCameraInput(_camera5);
             }
 
-
             InputHelper.UpdateCleanup();
             base.Update(gameTime);
         }
@@ -82,6 +81,11 @@ namespace GameProject {
             GraphicsDevice.Clear(Color.Black);
 
             _camera1.SetViewport();
+            _s.Begin(transformMatrix: _camera1.GetView(-1));
+            _s.Draw(_apos, Vector2.Zero, Color.White);
+            _s.Draw(_apos, _mouseWorld, Color.White);
+            _s.End();
+
             _s.Begin(transformMatrix: _camera1.View);
             _s.Draw(_apos, Vector2.Zero, Color.White);
             _s.Draw(_apos, _mouseWorld, Color.White);
