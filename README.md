@@ -29,6 +29,8 @@ spriteBatch.End();
 camera.ResetViewport();
 ```
 
+For a more practical sample project, check the [example code](https://github.com/Apostolique/Apos.Camera/blob/master/Example/Game/GameRoot.cs).
+
 ## Other projects you might like
 
 * [Apos.Gui](https://github.com/Apostolique/Apos.Gui) - UI library for MonoGame.
