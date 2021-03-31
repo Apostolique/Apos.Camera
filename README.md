@@ -14,7 +14,7 @@ Camera library for MonoGame.
 ## Features
 
 * Viewport support
-* Parallax
+* Parallax with parallax zooming
 
 ## Usage samples
 
