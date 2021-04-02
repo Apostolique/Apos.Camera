@@ -49,29 +49,11 @@ namespace GameProject {
             if (_quit.Pressed())
                 Exit();
 
-            int x = InputHelper.NewMouse.X;
-            int y = InputHelper.NewMouse.Y;
-
-            if (!_isDragged && CameraContains(_camera1, x, y) || _isDragged && _current == 1) {
-                _current = 1;
-                UpdateCameraInput(_camera1);
-            }
-            if (!_isDragged && CameraContains(_camera2, x, y) || _isDragged && _current == 2) {
-                _current = 2;
-                UpdateCameraInput(_camera2);
-            }
-            if (!_isDragged && CameraContains(_camera3, x, y) || _isDragged && _current == 3) {
-                _current = 3;
-                UpdateCameraInput(_camera3);
-            }
-            if (!_isDragged && CameraContains(_camera4, x, y) || _isDragged && _current == 4) {
-                _current = 4;
-                UpdateCameraInput(_camera4);
-            }
-            if (!_isDragged && CameraContains(_camera5, x, y) || _isDragged && _current == 5) {
-                _current = 5;
-                UpdateCameraInput(_camera5);
-            }
+            UpdateCameraInput(_camera1, 1);
+            UpdateCameraInput(_camera2, 2);
+            UpdateCameraInput(_camera3, 3);
+            UpdateCameraInput(_camera4, 4);
+            UpdateCameraInput(_camera5, 5);
 
             InputHelper.UpdateCleanup();
             base.Update(gameTime);
@@ -80,45 +62,11 @@ namespace GameProject {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
-            _camera1.SetViewport();
-            _s.Begin(transformMatrix: _camera1.GetView(-1));
-            _s.Draw(_apos, Vector2.Zero, Color.White);
-            _s.Draw(_apos, _mouseWorld, Color.White);
-            _s.End();
-
-            _s.Begin(transformMatrix: _camera1.View);
-            _s.Draw(_apos, Vector2.Zero, Color.White);
-            _s.Draw(_apos, _mouseWorld, Color.White);
-            _s.End();
-            _camera1.ResetViewport();
-
-            _camera2.SetViewport();
-            _s.Begin(transformMatrix: _camera2.View);
-            _s.Draw(_apos, Vector2.Zero, Color.White);
-            _s.Draw(_apos, _mouseWorld, Color.White);
-            _s.End();
-            _camera2.ResetViewport();
-
-            _camera3.SetViewport();
-            _s.Begin(transformMatrix: _camera3.View);
-            _s.Draw(_apos, Vector2.Zero, Color.White);
-            _s.Draw(_apos, _mouseWorld, Color.White);
-            _s.End();
-            _camera3.ResetViewport();
-
-            _camera4.SetViewport();
-            _s.Begin(transformMatrix: _camera4.View);
-            _s.Draw(_apos, Vector2.Zero, Color.White);
-            _s.Draw(_apos, _mouseWorld, Color.White);
-            _s.End();
-            _camera4.ResetViewport();
-
-            _camera5.SetViewport();
-            _s.Begin(transformMatrix: _camera5.View);
-            _s.Draw(_apos, Vector2.Zero, Color.White);
-            _s.Draw(_apos, _mouseWorld, Color.White);
-            _s.End();
-            _camera5.ResetViewport();
+            DrawCamera(_camera1);
+            DrawCamera(_camera2);
+            DrawCamera(_camera3);
+            DrawCamera(_camera4);
+            DrawCamera(_camera5);
 
             _s.Begin();
             DrawViewportBorder(_s, _camera1);
@@ -131,6 +79,15 @@ namespace GameProject {
             base.Draw(gameTime);
         }
 
+        private void DrawCamera(Camera c) {
+            c.SetViewport();
+            _s.Begin(transformMatrix: c.View);
+            _s.Draw(_apos, Vector2.Zero, Color.White);
+            _s.Draw(_apos, _mouseWorld, Color.White);
+            _s.End();
+            c.ResetViewport();
+
+        }
         private void DrawViewportBorder(SpriteBatch s, Camera c) {
             IVirtualViewport v = c.VirtualViewport;
 
@@ -144,31 +101,37 @@ namespace GameProject {
             IVirtualViewport v = camera.VirtualViewport;
             return !(x <= v.X || v.X + v.Width < x || y <= v.Y || v.Y + v.Height < y);
         }
-        private void UpdateCameraInput(Camera camera) {
-            if (MouseCondition.Scrolled()) {
-                int scrollDelta = MouseCondition.ScrollDelta;
-                SetZoom(camera, MathF.Min(MathF.Max(GetZoom(camera) - scrollDelta * 0.001f, 0.2f), 10f));
-            }
+        private void UpdateCameraInput(Camera c, int index) {
+            int x = InputHelper.NewMouse.X;
+            int y = InputHelper.NewMouse.Y;
 
-            if (RotateLeft.Pressed()) {
-                camera.Rotation += MathHelper.PiOver4;
-            }
-            if (RotateRight.Pressed()) {
-                camera.Rotation -= MathHelper.PiOver4;
-            }
+            if (!_isDragged && CameraContains(c, x, y) || _isDragged && _current == index) {
+                _current = index;
+                if (MouseCondition.Scrolled()) {
+                    int scrollDelta = MouseCondition.ScrollDelta;
+                    SetZoom(c, MathF.Min(MathF.Max(GetZoom(c) - scrollDelta * 0.001f, 0.2f), 10f));
+                }
 
-            _mouseWorld = camera.ScreenToWorld(InputHelper.NewMouse.X, InputHelper.NewMouse.Y);
+                if (RotateLeft.Pressed()) {
+                    c.Rotation += MathHelper.PiOver4;
+                }
+                if (RotateRight.Pressed()) {
+                    c.Rotation -= MathHelper.PiOver4;
+                }
 
-            if (CameraDrag.Pressed()) {
-                _dragAnchor = _mouseWorld;
-                _isDragged = true;
-            }
-            if (_isDragged && CameraDrag.HeldOnly()) {
-                camera.XY += _dragAnchor - _mouseWorld;
-                _mouseWorld = _dragAnchor;
-            }
-            if (_isDragged && CameraDrag.Released()) {
-                _isDragged = false;
+                _mouseWorld = c.ScreenToWorld(x, y);
+
+                if (CameraDrag.Pressed()) {
+                    _dragAnchor = _mouseWorld;
+                    _isDragged = true;
+                }
+                if (_isDragged && CameraDrag.HeldOnly()) {
+                    c.XY += _dragAnchor - _mouseWorld;
+                    _mouseWorld = _dragAnchor;
+                }
+                if (_isDragged && CameraDrag.Released()) {
+                    _isDragged = false;
+                }
             }
         }
 
