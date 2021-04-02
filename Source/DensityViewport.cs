@@ -69,7 +69,7 @@ namespace Apos.Camera {
                 _virtualHeight = _viewport.Height / ratioHeight;
             }
 
-            _origin = new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
+            _origin = new Vector2(_virtualWidth / 2f, _virtualHeight / 2f);
         }
 
         private GraphicsDevice _graphicsDevice;
