@@ -1,6 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace Apos.Camera {
     public class Camera {
@@ -90,12 +89,12 @@ namespace Apos.Camera {
         public float WorldToScreenScale(float z = 0f) => Vector2.Distance(WorldToScreen(0f, 0f, z), WorldToScreen(1f, 0f, z));
         public float ScreenToWorldScale(float z = 0f) => Vector2.Distance(ScreenToWorld(0f, 0f, z), ScreenToWorld(1f, 0f, z));
 
-        public Vector2 WorldToScreen(float x, float y, float z) => WorldToScreen(new Vector2(x, y), z);
-        public Vector2 WorldToScreen(Vector2 xy, float z) {
+        public Vector2 WorldToScreen(float x, float y, float z = 0f) => WorldToScreen(new Vector2(x, y), z);
+        public Vector2 WorldToScreen(Vector2 xy, float z = 0f) {
             return Vector2.Transform(xy, GetView(z)) + VirtualViewport.XY;
         }
         public Vector2 ScreenToWorld(float x, float y, float z = 0f) => ScreenToWorld(new Vector2(x, y), z);
-        public Vector2 ScreenToWorld(Vector2 xy, float z) {
+        public Vector2 ScreenToWorld(Vector2 xy, float z = 0f) {
             return Vector2.Transform(xy - VirtualViewport.XY, GetViewInvert(z));
         }
 
@@ -104,6 +103,26 @@ namespace Apos.Camera {
             float maxScale = ZToScale(minDistance, 0f);
 
             return scaleZ > 0 && scaleZ < maxScale;
+        }
+
+        public RectangleF ViewRect => GetViewRect(0);
+        public RectangleF GetViewRect(float z) {
+            var frustum = GetBoundingFrustum(0);
+            var corners = frustum.GetCorners();
+            var topLeft = corners[0];
+            var bottomRight = corners[2];
+            var width = bottomRight.X - topLeft.X;
+            var height = bottomRight.Y - topLeft.Y;
+
+            return new RectangleF(topLeft.X, topLeft.Y, width, height);
+        }
+        public BoundingFrustum GetBoundingFrustum() {
+            return GetBoundingFrustum(0);
+        }
+        public BoundingFrustum GetBoundingFrustum(float z) {
+            Matrix view = GetView(z);
+            Matrix projection = Matrix.CreateOrthographicOffCenter(0, VirtualViewport.Width, VirtualViewport.Height, 0, 0, 1);
+            return new BoundingFrustum(view * projection);
         }
 
         private Vector2 _xy = Vector2.Zero;
