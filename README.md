@@ -20,7 +20,7 @@ Camera library for MonoGame.
 
 ```csharp
 IVirtualViewport defaultViewport = new DefaultViewport(GraphicsDevice, Window);
-Camera camera = new Camera(GraphicsDevice, defaultViewport);
+Camera camera = new Camera(defaultViewport);
 
 camera.SetViewport();
 spriteBatch.Begin(transformMatrix: camera.View);
