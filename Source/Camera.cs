@@ -29,6 +29,13 @@ namespace Apos.Camera {
             }
         }
 
+        public float FocalLength {
+            get => _focalLength;
+            set {
+                _focalLength = value > 0.00001f ? value : 0.00001f;
+            }
+        }
+
         public float Rotation { get; set; } = 0f;
         public Vector2 Scale { get; set; } = Vector2.One;
 
@@ -72,19 +79,34 @@ namespace Apos.Camera {
                 Matrix.CreateScale(scaleZ, scaleZ, 1f) *
                 Matrix.CreateTranslation(new Vector3(VirtualViewport.Origin, 0f)));
         }
+        public Matrix GetView3D() {
+            return
+                Matrix.CreateLookAt(XYZ, new Vector3(XY, Z - 1), new Vector3((float)Math.Sin(Rotation), (float)Math.Cos(Rotation), 0)) *
+                Matrix.CreateScale(Scale.X, -Scale.Y, 1f);
+        }
         public Matrix GetViewInvert(float z = 0) => Matrix.Invert(GetView(z));
+
+        public Matrix GetProjection() {
+            return Matrix.CreateOrthographicOffCenter(0, VirtualViewport.Width, VirtualViewport.Height, 0, 0, 1);
+        }
+        public Matrix GetProjection3D(float nearPlaneDistance = 0.01f, float farPlaneDistance = 100f) {
+            var aspect = VirtualViewport.VirtualWidth / (float)VirtualViewport.VirtualHeight;
+            var fov = (float)Math.Atan(VirtualViewport.VirtualHeight / 2f / FocalLength) * 2f;
+
+            return Matrix.CreatePerspectiveFieldOfView(fov, aspect, nearPlaneDistance, farPlaneDistance);
+        }
 
         public float ScaleToZ(float scale, float targetZ) {
             if (scale + targetZ == 0) {
                 return 0f;
             }
-            return 1f / scale + targetZ;
+            return 1f / ((scale + targetZ) / FocalLength);
         }
         public float ZToScale(float z, float targetZ) {
             if (z - targetZ == 0) {
                 return 0f;
             }
-            return 1f / (z - targetZ);
+            return 1f / ((z - targetZ) / FocalLength);
         }
 
         public float WorldToScreenScale(float z = 0f) => Vector2.Distance(WorldToScreen(0f, 0f, z), WorldToScreen(1f, 0f, z));
@@ -128,11 +150,12 @@ namespace Apos.Camera {
         }
         public BoundingFrustum GetBoundingFrustum(float z = 0) {
             Matrix view = GetView(z);
-            Matrix projection = Matrix.CreateOrthographicOffCenter(0, VirtualViewport.Width, VirtualViewport.Height, 0, 0, 1);
+            Matrix projection = GetProjection();
             return new BoundingFrustum(view * projection);
         }
 
         private Vector2 _xy = Vector2.Zero;
         private Vector3 _xyz = new Vector3(Vector2.Zero, 1f);
+        private float _focalLength = 1f;
     }
 }
