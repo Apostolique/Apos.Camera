@@ -32,7 +32,7 @@ namespace Apos.Camera {
         public float FocalLength {
             get => _focalLength;
             set {
-                _focalLength = value > 0.00001f ? value : 0.00001f;
+                _focalLength = value > 0.01f ? value : 0.01f;
             }
         }
 
@@ -97,14 +97,14 @@ namespace Apos.Camera {
         }
 
         public float ScaleToZ(float scale, float targetZ) {
-            if (scale + targetZ == 0) {
-                return 0f;
+            if (scale == 0) {
+                return float.MaxValue;
             }
-            return 1f / ((scale + targetZ) / FocalLength);
+            return FocalLength / scale + targetZ;
         }
         public float ZToScale(float z, float targetZ) {
             if (z - targetZ == 0) {
-                return 0f;
+                return float.MaxValue;
             }
             return 1f / ((z - targetZ) / FocalLength);
         }
@@ -149,6 +149,7 @@ namespace Apos.Camera {
             return new RectangleF(left, top, width, height);
         }
         public BoundingFrustum GetBoundingFrustum(float z = 0) {
+            // TODO: Use 3D view and projection?
             Matrix view = GetView(z);
             Matrix projection = GetProjection();
             return new BoundingFrustum(view * projection);
