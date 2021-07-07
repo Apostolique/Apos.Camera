@@ -21,7 +21,7 @@ Create a default viewport and pass it to the camera:
 
 ```csharp
 IVirtualViewport defaultViewport = new DefaultViewport(GraphicsDevice, Window);
-Camera camera = new Camera(GraphicsDevice, defaultViewport);
+Camera camera = new Camera(defaultViewport);
 ```
 
 Before drawing, set the viewport and pass the view matrix to the SpriteBatch:
