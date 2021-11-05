@@ -30,7 +30,7 @@ spriteBatch.End();
 camera.ResetViewport();
 ```
 
-For a more practical sample project, check the [example code](https://github.com/Apostolique/Apos.Camera/blob/master/Example/Game/GameRoot.cs).
+For a more practical sample project, check the [example code](https://github.com/Apostolique/Apos.Camera/blob/main/Example/Game/GameRoot.cs).
 
 ## Other projects you might like
 
