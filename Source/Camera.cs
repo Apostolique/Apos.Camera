@@ -42,15 +42,16 @@ namespace Apos.Camera {
         public Vector2 XY {
             get => _xy;
             set {
-                _xy = value;
-                _xyz.X = value.X;
-                _xyz.Y = value.Y;
+                X = value.X;
+                Y = value.Y;
             }
         }
         public Vector3 XYZ {
             get => _xyz;
             set {
-                _xyz = value;
+                X = value.X;
+                Y = value.Y;
+                Z = value.Z;
             }
         }
 
