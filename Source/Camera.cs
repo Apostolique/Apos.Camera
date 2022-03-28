@@ -107,7 +107,7 @@ namespace Apos.Camera {
             if (z - targetZ == 0) {
                 return float.MaxValue;
             }
-            return 1f / ((z - targetZ) / FocalLength);
+            return FocalLength / (z - targetZ);
         }
 
         public float WorldToScreenScale(float z = 0f) => Vector2.Distance(WorldToScreen(0f, 0f, z), WorldToScreen(1f, 0f, z));
