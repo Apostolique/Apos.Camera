@@ -1,6 +1,7 @@
 ﻿using System;
 using Apos.Camera;
 using Apos.Input;
+using Apos.Shapes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,6 +22,7 @@ namespace GameProject {
 
         protected override void LoadContent() {
             _s = new SpriteBatch(GraphicsDevice);
+            _sb = new ShapeBatch(GraphicsDevice, Content);
 
             InputHelper.Setup(this);
 
@@ -117,6 +119,10 @@ namespace GameProject {
 
         private void DrawCamera(Camera c) {
             c.SetViewport();
+            _sb.Begin(c.GetView(-1));
+            _sb.FillCircle(new Vector2(150, -70), 50f, Color.White);
+            _sb.End();
+
             _s.Begin(transformMatrix: c.GetView(-1));
             _s.Draw(_apos, new Vector2(0, 0), Color.White);
             _s.Draw(_apos, new Vector2(200, 0), Color.White);
@@ -143,6 +149,7 @@ namespace GameProject {
             _s.Draw(_apos, Vector2.Zero, Color.White);
             _s.Draw(_apos, new Vector2(200, 0), Color.White);
             _s.End();
+
             _s.Begin();
             _s.Draw(_apos, -c.VirtualViewport.XY + c.WorldToScreen(_mouseWorld), Color.White);
             _s.End();
@@ -235,6 +242,7 @@ namespace GameProject {
 
         GraphicsDeviceManager _graphics;
         SpriteBatch _s;
+        ShapeBatch _sb;
 
         ICondition _quit =
             new AnyCondition(
