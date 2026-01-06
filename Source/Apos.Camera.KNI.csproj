@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
-    <PackageId>Apos.Camera</PackageId>
-    <Title>Apos.Camera</Title>
+    <PackageId>Apos.Camera.KNI</PackageId>
+    <Title>Apos.Camera.KNI</Title>
     <Description>Camera library for MonoGame.</Description>
     <Authors>Jean-David Moisan</Authors>
     <Copyright>Copyright 2026</Copyright>
