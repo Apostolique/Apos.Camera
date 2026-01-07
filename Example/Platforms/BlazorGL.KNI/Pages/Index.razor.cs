@@ -2,28 +2,22 @@ using System;
 using Microsoft.JSInterop;
 using Microsoft.Xna.Framework;
 
-namespace GameProject.Pages
-{
-    public partial class Index
-    {
+namespace GameProject.Pages {
+    public partial class Index {
         Game _game;
 
-        protected override void OnAfterRender(bool firstRender)
-        {
+        protected override void OnAfterRender(bool firstRender) {
             base.OnAfterRender(firstRender);
 
-            if (firstRender)
-            {
+            if (firstRender) {
                 JsRuntime.InvokeAsync<object>("initRenderJS", DotNetObjectReference.Create(this));
             }
         }
 
         [JSInvokable]
-        public void TickDotNet()
-        {
+        public void TickDotNet() {
             // init game
-            if (_game == null)
-            {
+            if (_game == null) {
                 _game = new GameRoot();
                 _game.Run();
             }
@@ -31,6 +25,5 @@ namespace GameProject.Pages
             // run gameloop
             _game.Tick();
         }
-
     }
 }
