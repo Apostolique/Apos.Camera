@@ -40,7 +40,7 @@ You can move the camera around:
 
 ```csharp
 camera.XY = new Vector2(100, 50);
-camera.Scale = Vector2(2f, 2f);
+camera.Scale = new Vector2(2f, 2f);
 camera.Rotation = MathHelper.PiOver4;
 ```
 

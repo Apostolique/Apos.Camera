@@ -64,6 +64,10 @@ namespace GameProject {
         protected override void UnloadContent() {
             _superViewport1.Dispose();
             _superViewport2.Dispose();
+            _superViewport3.Dispose();
+            _superViewport4.Dispose();
+            _superViewport5.Dispose();
+            _superViewport6.Dispose();
         }
 
         protected override void Update(GameTime gameTime) {

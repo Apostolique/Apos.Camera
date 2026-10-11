@@ -35,7 +35,7 @@ For a more practical sample project, check the [example code](https://github.com
 ## Other projects you might like
 
 * [Apos.Gui](https://github.com/Apostolique/Apos.Gui) - UI library for MonoGame.
-* [Apos.Input](https://github.com/Apostolique/Apos.Gui) -  Polling input library for MonoGame.
+* [Apos.Input](https://github.com/Apostolique/Apos.Input) - Polling input library for MonoGame.
 * [Apos.History](https://github.com/Apostolique/Apos.History) - A C# library that makes it easy to handle undo and redo.
 * [Apos.Content](https://github.com/Apostolique/Apos.Content) - Content builder library for MonoGame.
 * [Apos.Framework](https://github.com/Apostolique/Apos.Framework) - Game architecture for MonoGame.
