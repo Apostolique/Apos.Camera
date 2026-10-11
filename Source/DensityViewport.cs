@@ -8,8 +8,8 @@ namespace Apos.Camera {
             _graphicsDevice = graphicsDevice;
             _window = window;
 
-            TargetWidth = targetWidth;
-            TargetHeight = targetHeight;
+            _targetWidth = targetWidth;
+            _targetHeight = targetHeight;
 
             _window.ClientSizeChanged += OnClientSizeChanged;
             OnClientSizeChanged(this, EventArgs.Empty);
@@ -28,12 +28,24 @@ namespace Apos.Camera {
 
         public Vector2 Origin => _origin;
 
-        public float TargetWidth { get; set; }
-        public float TargetHeight { get; set; }
+        public float TargetWidth {
+            get => _targetWidth;
+            set {
+                _targetWidth = value;
+                UpdateRatio();
+            }
+        }
+        public float TargetHeight {
+            get => _targetHeight;
+            set {
+                _targetHeight = value;
+                UpdateRatio();
+            }
+        }
 
         public float VirtualWidth => _virtualWidth;
         public float VirtualHeight => _virtualHeight;
-        public float Ratio { get; set; }
+        public float Ratio { get; private set; }
 
         public Matrix GetScaleMatrix() {
             return Matrix.CreateScale(Ratio, Ratio, 1f);
@@ -53,7 +65,10 @@ namespace Apos.Camera {
 
         private void OnClientSizeChanged(object sender, EventArgs e) {
             _viewport = new Viewport(0, 0, _graphicsDevice.PresentationParameters.BackBufferWidth, _graphicsDevice.PresentationParameters.BackBufferHeight);
+            UpdateRatio();
+        }
 
+        private void UpdateRatio() {
             float ratioWidth = _viewport.Width / TargetWidth;
             float ratioHeight = _viewport.Height / TargetHeight;
 
@@ -74,6 +89,9 @@ namespace Apos.Camera {
 
         private GraphicsDevice _graphicsDevice;
         private GameWindow _window;
+
+        private float _targetWidth;
+        private float _targetHeight;
 
         private float _virtualWidth;
         private float _virtualHeight;

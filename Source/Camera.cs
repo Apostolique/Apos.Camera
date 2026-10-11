@@ -150,9 +150,13 @@ namespace Apos.Camera {
             return new RectangleF(left, top, width, height);
         }
         public BoundingFrustum GetBoundingFrustum(float z = 0) {
-            // TODO: Use 3D view and projection?
             Matrix view = GetView(z);
             Matrix projection = GetProjection();
+            return new BoundingFrustum(view * projection);
+        }
+        public BoundingFrustum GetBoundingFrustum3D(float nearPlaneDistance = 0.01f, float farPlaneDistance = 100f) {
+            Matrix view = GetView3D();
+            Matrix projection = GetProjection3D(nearPlaneDistance, farPlaneDistance);
             return new BoundingFrustum(view * projection);
         }
 
