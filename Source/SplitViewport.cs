@@ -13,12 +13,14 @@ namespace Apos.Camera {
             _bottom = bottom;
 
             _window = window;
-            _window.ClientSizeChanged += OnClientSizeChanged;
-            OnClientSizeChanged(this, EventArgs.Empty);
+            _window.ClientSizeChanged += OnSizeChanged;
+            _graphicsDevice.DeviceReset += OnSizeChanged;
+            OnSizeChanged(this, EventArgs.Empty);
         }
 
         public void Dispose() {
-            _window.ClientSizeChanged -= OnClientSizeChanged;
+            _window.ClientSizeChanged -= OnSizeChanged;
+            _graphicsDevice.DeviceReset -= OnSizeChanged;
         }
 
         public int X => _viewport.X;
@@ -45,7 +47,7 @@ namespace Apos.Camera {
             return view;
         }
 
-        private void OnClientSizeChanged(object sender, EventArgs e) {
+        private void OnSizeChanged(object sender, EventArgs e) {
             int gWidth = _graphicsDevice.PresentationParameters.BackBufferWidth;
             int gHeight = _graphicsDevice.PresentationParameters.BackBufferHeight;
 
